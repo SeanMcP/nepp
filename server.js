@@ -1,20 +1,28 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('./routes/index');
 const morgan = require('morgan');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
 const bcrypt = require('bcrypt');
 const flash = require('express-flash-messages');
-const User = require('./models/index').User;
+const routes = require('./routes/index');
+const User = require('./models/user');
 const app = express();
 
+app.set('port', (process.env.PORT || 3000));
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(morgan('dev'));
+
+// This block is hanging everything
+app.use(session({
+  secret: 'mellon',
+  resave: false,
+  saveUninitialized: false
+}));
 
 // Passport
 app.use(passport.initialize());
@@ -61,8 +69,13 @@ passport.deserializeUser((id, done) => {
   })
 })
 
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+
 app.use(routes);
 
-app.listen(3000, () => {
-  console.log('App is running on localhost:3000');
-})
+app.listen(app.get('port'), () => {
+  console.log('Node app is running on port', app.get('port'));
+});
