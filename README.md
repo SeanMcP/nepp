@@ -8,4 +8,8 @@ Make sure you have Postgres installed. The database used in this project is call
 
 Run the following commands
 
-1. `createdb nepp`
+1. Change `username` value in `config/config.json` to your username
+  - Optional: Change `database` value if you are using a different name
+2. `sequelize init`
+3. `createdb nepp`
+4. `sequelize db:migrate`
