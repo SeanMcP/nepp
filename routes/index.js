@@ -6,7 +6,7 @@ const User = require('../models/index').User;
 
 router.get('/', (req, res) => {
   res.status(200).send('Hello world!');
-})
+});
 
 router.post('/user', (req, res) => {
   let username = req.body.username;
@@ -40,6 +40,17 @@ router.post('/user', (req, res) => {
       })
     })
   }
+});
+
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/success',
+  failureRedirect: '/failure',
+  failureFlash: true
+}));
+
+router.get('/:status', (req, res) => {
+  let status = req.params.status === 'success' ? 200 : 400;
+  res.status(status).send(req.params.status);
 })
 
 module.exports = router;

@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
+const flash = require('express-flash-messages');
 const User = require('./models/index').User;
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(morgan('dev'));
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 app.use((req, res, next) => {
   res.locals.errorMessage = req.flash('error');
 });
