@@ -18,6 +18,11 @@ Run the following commands
 3. `createdb nepp`
 4. `sequelize db:migrate`
 
+## Endpoints
+
+- `GET /` - Hello world
+- `POST /user` - Creates a new user
+
 ## Styling
 
 The project uses a mixture of ES6 and previous style. Future revisions may standardize the conventions.
